@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<sub-flow name="indicators" doc:id="ef1b33ae-786a-4559-80bd-c026e29a2d23" >
+		<ee:transform doc:name="Indicators complete" doc:id="6bff425a-973f-4a33-9587-4dddca7e8026" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "indicators": [
+    {
+      "id": "ioc-001",
+      "type": "ip",
+      "value": "45.142.212.61",
+      "confidence": 95,
+      "threat_level": "critical",
+      "first_seen": "2024-12-15T08:30:00Z",
+      "last_seen": "2026-02-14T10:30:00Z",
+      "tags": [
+        "malware",
+        "c2",
+        "ransomware"
+      ],
+      "threat_actor": {
+        "name": "APT28",
+        "confidence": 90
+      },
+      "campaign": {
+        "name": "Operation CloudHopper",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-002",
+      "type": "ip",
+      "value": "185.220.101.32",
+      "confidence": 78,
+      "threat_level": "high",
+      "first_seen": "2024-12-18T10:15:00Z",
+      "last_seen": "2026-02-10T15:45:00Z",
+      "tags": [
+        "phishing",
+        "credential-harvesting"
+      ],
+      "threat_actor": {
+        "name": "Lazarus Group",
+        "confidence": 85
+      },
+      "campaign": {
+        "name": "Financial Sector Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-003",
+      "type": "domain",
+      "value": "malicious-update.xyz",
+      "confidence": 88,
+      "threat_level": "high",
+      "first_seen": "2024-12-10T14:20:00Z",
+      "last_seen": "2026-02-12T09:15:00Z",
+      "tags": [
+        "malware",
+        "trojan"
+      ],
+      "threat_actor": {
+        "name": "Unknown",
+        "confidence": 60
+      },
+      "campaign": null
+    },
+    {
+      "id": "ioc-004",
+      "type": "ip",
+      "value": "91.215.85.44",
+      "confidence": 65,
+      "threat_level": "medium",
+      "first_seen": "2024-11-20T11:30:00Z",
+      "last_seen": "2026-02-01T08:15:00Z",
+      "tags": [
+        "scanning",
+        "reconnaissance"
+      ],
+      "threat_actor": null,
+      "campaign": null
+    },
+    {
+      "id": "ioc-005",
+      "type": "ip",
+      "value": "103.253.145.28",
+      "confidence": 92,
+      "threat_level": "critical",
+      "first_seen": "2024-12-01T12:00:00Z",
+      "last_seen": "2026-02-15T22:10:00Z",
+      "tags": [
+        "botnet",
+        "ddos"
+      ],
+      "threat_actor": {
+        "name": "DarkSide",
+        "confidence": 88
+      },
+      "campaign": {
+        "name": "Mirai Variant Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-006",
+      "type": "ip",
+      "value": "194.61.24.102",
+      "confidence": 81,
+      "threat_level": "high",
+      "first_seen": "2024-12-12T09:20:00Z",
+      "last_seen": "2026-02-13T14:20:00Z",
+      "tags": [
+        "malware",
+        "trojan",
+        "banking"
+      ],
+      "threat_actor": {
+        "name": "FIN7",
+        "confidence": 92
+      },
+      "campaign": {
+        "name": "Carbanak Banking Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-007",
+      "type": "domain",
+      "value": "secure-login-verify.com",
+      "confidence": 90,
+      "threat_level": "high",
+      "first_seen": "2024-12-14T11:45:00Z",
+      "last_seen": "2026-02-14T11:30:00Z",
+      "tags": [
+        "phishing",
+        "credential-theft"
+      ],
+      "threat_actor": {
+        "name": "APT29",
+        "confidence": 85
+      },
+      "campaign": {
+        "name": "SolarWinds Follow-up",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-008",
+      "type": "ip",
+      "value": "37.120.237.251",
+      "confidence": 73,
+      "threat_level": "medium",
+      "first_seen": "2024-11-28T15:30:00Z",
+      "last_seen": "2026-01-20T10:00:00Z",
+      "tags": [
+        "scanning",
+        "brute-force"
+      ],
+      "threat_actor": null,
+      "campaign": null
+    },
+    {
+      "id": "ioc-009",
+      "type": "ip",
+      "value": "176.123.6.47",
+      "confidence": 87,
+      "threat_level": "high",
+      "first_seen": "2024-12-16T07:15:00Z",
+      "last_seen": "2026-02-09T20:30:00Z",
+      "tags": [
+        "ransomware",
+        "data-exfiltration"
+      ],
+      "threat_actor": {
+        "name": "REvil",
+        "confidence": 90
+      },
+      "campaign": {
+        "name": "Supply Chain Attack Wave",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-010",
+      "type": "url",
+      "value": "http://download-update-now.biz/installer.exe",
+      "confidence": 94,
+      "threat_level": "critical",
+      "first_seen": "2024-12-18T14:00:00Z",
+      "last_seen": "2026-02-16T09:45:00Z",
+      "tags": [
+        "malware",
+        "trojan",
+        "dropper"
+      ],
+      "threat_actor": {
+        "name": "Emotet Operators",
+        "confidence": 88
+      },
+      "campaign": {
+        "name": "Holiday Phishing Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-011",
+      "type": "ip",
+      "value": "89.248.165.139",
+      "confidence": 79,
+      "threat_level": "high",
+      "first_seen": "2024-12-10T10:30:00Z",
+      "last_seen": "2026-02-07T16:45:00Z",
+      "tags": [
+        "c2",
+        "backdoor"
+      ],
+      "threat_actor": {
+        "name": "APT41",
+        "confidence": 82
+      },
+      "campaign": {
+        "name": "Healthcare Sector Targeting",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-012",
+      "type": "hash",
+      "value": "44d88612fea8a8f36de82e1278abb02f",
+      "confidence": 96,
+      "threat_level": "critical",
+      "first_seen": "2024-12-17T09:00:00Z",
+      "last_seen": "2026-02-15T13:20:00Z",
+      "tags": [
+        "ransomware",
+        "encryption"
+      ],
+      "threat_actor": {
+        "name": "LockBit 3.0",
+        "confidence": 95
+      },
+      "campaign": {
+        "name": "LockBit Ransomware Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-013",
+      "type": "ip",
+      "value": "217.182.143.207",
+      "confidence": 68,
+      "threat_level": "medium",
+      "first_seen": "2024-11-15T08:00:00Z",
+      "last_seen": "2026-01-22T16:30:00Z",
+      "tags": [
+        "scanning",
+        "vulnerability-exploitation"
+      ],
+      "threat_actor": null,
+      "campaign": null
+    },
+    {
+      "id": "ioc-014",
+      "type": "domain",
+      "value": "microsoft-security-update.net",
+      "confidence": 91,
+      "threat_level": "high",
+      "first_seen": "2024-12-13T13:20:00Z",
+      "last_seen": "2026-02-12T19:15:00Z",
+      "tags": [
+        "phishing",
+        "typosquatting"
+      ],
+      "threat_actor": {
+        "name": "APT32",
+        "confidence": 80
+      },
+      "campaign": {
+        "name": "Typosquatting Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-015",
+      "type": "ip",
+      "value": "5.188.206.76",
+      "confidence": 85,
+      "threat_level": "high",
+      "first_seen": "2024-12-11T11:00:00Z",
+      "last_seen": "2026-02-08T12:10:00Z",
+      "tags": [
+        "cryptomining",
+        "botnet"
+      ],
+      "threat_actor": {
+        "name": "Rocke Group",
+        "confidence": 77
+      },
+      "campaign": {
+        "name": "Cryptojacking Infrastructure",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-016",
+      "type": "ip",
+      "value": "23.227.38.32",
+      "confidence": 89,
+      "threat_level": "high",
+      "first_seen": "2024-12-08T06:45:00Z",
+      "last_seen": "2026-02-14T18:30:00Z",
+      "tags": [
+        "malware",
+        "spyware",
+        "info-stealer"
+      ],
+      "threat_actor": {
+        "name": "Gamaredon Group",
+        "confidence": 83
+      },
+      "campaign": {
+        "name": "Eastern Europe Espionage",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-017",
+      "type": "url",
+      "value": "https://paypal-secure-login.tk/verify",
+      "confidence": 93,
+      "threat_level": "critical",
+      "first_seen": "2024-12-19T10:00:00Z",
+      "last_seen": "2026-02-15T20:05:00Z",
+      "tags": [
+        "phishing",
+        "financial-fraud"
+      ],
+      "threat_actor": {
+        "name": "Unknown",
+        "confidence": 65
+      },
+      "campaign": {
+        "name": "Holiday Shopping Scam",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-018",
+      "type": "ip",
+      "value": "139.59.46.154",
+      "confidence": 76,
+      "threat_level": "medium",
+      "first_seen": "2024-11-25T14:15:00Z",
+      "last_seen": "2026-01-28T09:40:00Z",
+      "tags": [
+        "scanning",
+        "enumeration"
+      ],
+      "threat_actor": null,
+      "campaign": null
+    },
+    {
+      "id": "ioc-019",
+      "type": "hash",
+      "value": "9f86d081884c7d659a2feaa0c55ad015",
+      "confidence": 88,
+      "threat_level": "high",
+      "first_seen": "2024-12-15T12:30:00Z",
+      "last_seen": "2026-02-13T22:40:00Z",
+      "tags": [
+        "trojan",
+        "remote-access"
+      ],
+      "threat_actor": {
+        "name": "Turla",
+        "confidence": 86
+      },
+      "campaign": {
+        "name": "Diplomatic Targeting Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-020",
+      "type": "ip",
+      "value": "162.142.125.217",
+      "confidence": 82,
+      "threat_level": "high",
+      "first_seen": "2024-12-09T08:20:00Z",
+      "last_seen": "2026-02-11T13:45:00Z",
+      "tags": [
+        "c2",
+        "command-and-control"
+      ],
+      "threat_actor": {
+        "name": "Cobalt Group",
+        "confidence": 79
+      },
+      "campaign": {
+        "name": "ATM Jackpotting Campaign",
+        "status": "active"
+      }
+    }
+  ]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<choice doc:name="Filter indicators?" doc:id="f8fdbc51-eee2-421d-8065-6c81002abebd" >
+			<when expression="#[output json&#10;---&#10;isEmpty(attributes.queryParams) == false]">
+				<choice doc:name="Is filter Type present?" doc:id="31509827-eb6f-4cb8-a8ce-13a54d36e1a7" >
+					<when expression='#[output json&#10;---&#10;isEmpty(attributes.queryParams."type") == false]'>
+						<ee:transform doc:name="Applied filters type" doc:id="cc36c7d4-a585-4552-ac5a-ec63072075df">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "indicators": payload.indicators filter (value, index) -> (value."type" == attributes.queryParams."type")
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+					</when>
+				</choice>
+				<choice doc:name="Is filter min_confidence present?" doc:id="5f91c225-17e7-42ae-8c1a-a965c5d805cf" >
+					<when expression='#[output json&#10;---&#10;isEmpty(attributes.queryParams.min_confidence) == false]'>
+						<ee:transform doc:name="Applied filters min_confidence" doc:id="be6c3df7-b1da-4292-8fff-c5c0a13f93a8" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "indicators": payload.indicators filter (value, index) -> (value.confidence >= attributes.queryParams.min_confidence)
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</when>
+				</choice>
+				<choice doc:name="Is filter threat_level present?" doc:id="d94b44c5-27df-4a43-9f96-f140fe635f1a" >
+					<when expression='#[output json&#10;---&#10;isEmpty(attributes.queryParams.threat_level) == false]'>
+						<ee:transform doc:name="Applied filters threat_level" doc:id="34c9cd81-c92f-444c-9fac-2cf5010c4835" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "indicators": payload.indicators filter (value, index) -> (value.threat_level == attributes.queryParams.threat_level)
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</when>
+				</choice>
+				<choice doc:name="Is filter updated_since present?" doc:id="bb7b946c-5258-4682-82fc-6d2e37c93e7d" >
+					<when expression='#[output json&#10;---&#10;isEmpty(attributes.queryParams.updated_since) == false]'>
+						<ee:transform doc:name="Applied filters updated_since" doc:id="63d7647e-be4d-47fb-ae70-4eba2795e46f" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "indicators": payload.indicators filter (value, index) -> ((value.last_seen as DateTime) > (attributes.queryParams.updated_since as DateTime))
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</when>
+				</choice>
+			</when>
+		</choice>
+	</sub-flow>
+	<flow name="indicators-object-storage-fill" doc:id="45e04881-9123-4fb0-8f88-6ec3b27aae2d" >
+		<scheduler doc:name="Scheduler" doc:id="0346ab5c-b5be-4096-bb91-66a3add96622" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="30" timeUnit="DAYS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<os:clear doc:name="Clear" doc:id="65468526-bec3-4d35-b9d0-1a4f3e0d80f7" objectStore="Object_store"/>
+		<ee:transform doc:name="Indicators complete" doc:id="0ddba628-8901-4a01-a7c2-3f2a8290c984">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "indicators": [
+    {
+      "id": "ioc-001",
+      "type": "ip",
+      "value": "45.142.212.61",
+      "confidence": 95,
+      "threat_level": "critical",
+      "first_seen": "2024-12-15T08:30:00Z",
+      "last_seen": "2026-02-14T10:30:00Z",
+      "tags": [
+        "malware",
+        "c2",
+        "ransomware"
+      ],
+      "threat_actor": {
+        "name": "APT28",
+        "confidence": 90
+      },
+      "campaign": {
+        "name": "Operation CloudHopper",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-002",
+      "type": "ip",
+      "value": "185.220.101.32",
+      "confidence": 78,
+      "threat_level": "high",
+      "first_seen": "2024-12-18T10:15:00Z",
+      "last_seen": "2026-02-10T15:45:00Z",
+      "tags": [
+        "phishing",
+        "credential-harvesting"
+      ],
+      "threat_actor": {
+        "name": "Lazarus Group",
+        "confidence": 85
+      },
+      "campaign": {
+        "name": "Financial Sector Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-003",
+      "type": "domain",
+      "value": "malicious-update.xyz",
+      "confidence": 88,
+      "threat_level": "high",
+      "first_seen": "2024-12-10T14:20:00Z",
+      "last_seen": "2026-02-12T09:15:00Z",
+      "tags": [
+        "malware",
+        "trojan"
+      ],
+      "threat_actor": {
+        "name": "Unknown",
+        "confidence": 60
+      },
+      "campaign": null
+    },
+    {
+      "id": "ioc-004",
+      "type": "ip",
+      "value": "91.215.85.44",
+      "confidence": 65,
+      "threat_level": "medium",
+      "first_seen": "2024-11-20T11:30:00Z",
+      "last_seen": "2026-02-01T08:15:00Z",
+      "tags": [
+        "scanning",
+        "reconnaissance"
+      ],
+      "threat_actor": null,
+      "campaign": null
+    },
+    {
+      "id": "ioc-005",
+      "type": "ip",
+      "value": "103.253.145.28",
+      "confidence": 92,
+      "threat_level": "critical",
+      "first_seen": "2024-12-01T12:00:00Z",
+      "last_seen": "2026-02-15T22:10:00Z",
+      "tags": [
+        "botnet",
+        "ddos"
+      ],
+      "threat_actor": {
+        "name": "DarkSide",
+        "confidence": 88
+      },
+      "campaign": {
+        "name": "Mirai Variant Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-006",
+      "type": "ip",
+      "value": "194.61.24.102",
+      "confidence": 81,
+      "threat_level": "high",
+      "first_seen": "2024-12-12T09:20:00Z",
+      "last_seen": "2026-02-13T14:20:00Z",
+      "tags": [
+        "malware",
+        "trojan",
+        "banking"
+      ],
+      "threat_actor": {
+        "name": "FIN7",
+        "confidence": 92
+      },
+      "campaign": {
+        "name": "Carbanak Banking Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-007",
+      "type": "domain",
+      "value": "secure-login-verify.com",
+      "confidence": 90,
+      "threat_level": "high",
+      "first_seen": "2024-12-14T11:45:00Z",
+      "last_seen": "2026-02-14T11:30:00Z",
+      "tags": [
+        "phishing",
+        "credential-theft"
+      ],
+      "threat_actor": {
+        "name": "APT29",
+        "confidence": 85
+      },
+      "campaign": {
+        "name": "SolarWinds Follow-up",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-008",
+      "type": "ip",
+      "value": "37.120.237.251",
+      "confidence": 73,
+      "threat_level": "medium",
+      "first_seen": "2024-11-28T15:30:00Z",
+      "last_seen": "2026-01-20T10:00:00Z",
+      "tags": [
+        "scanning",
+        "brute-force"
+      ],
+      "threat_actor": null,
+      "campaign": null
+    },
+    {
+      "id": "ioc-009",
+      "type": "ip",
+      "value": "176.123.6.47",
+      "confidence": 87,
+      "threat_level": "high",
+      "first_seen": "2024-12-16T07:15:00Z",
+      "last_seen": "2026-02-09T20:30:00Z",
+      "tags": [
+        "ransomware",
+        "data-exfiltration"
+      ],
+      "threat_actor": {
+        "name": "REvil",
+        "confidence": 90
+      },
+      "campaign": {
+        "name": "Supply Chain Attack Wave",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-010",
+      "type": "url",
+      "value": "http://download-update-now.biz/installer.exe",
+      "confidence": 94,
+      "threat_level": "critical",
+      "first_seen": "2024-12-18T14:00:00Z",
+      "last_seen": "2026-02-16T09:45:00Z",
+      "tags": [
+        "malware",
+        "trojan",
+        "dropper"
+      ],
+      "threat_actor": {
+        "name": "Emotet Operators",
+        "confidence": 88
+      },
+      "campaign": {
+        "name": "Holiday Phishing Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-011",
+      "type": "ip",
+      "value": "89.248.165.139",
+      "confidence": 79,
+      "threat_level": "high",
+      "first_seen": "2024-12-10T10:30:00Z",
+      "last_seen": "2026-02-07T16:45:00Z",
+      "tags": [
+        "c2",
+        "backdoor"
+      ],
+      "threat_actor": {
+        "name": "APT41",
+        "confidence": 82
+      },
+      "campaign": {
+        "name": "Healthcare Sector Targeting",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-012",
+      "type": "hash",
+      "value": "44d88612fea8a8f36de82e1278abb02f",
+      "confidence": 96,
+      "threat_level": "critical",
+      "first_seen": "2024-12-17T09:00:00Z",
+      "last_seen": "2026-02-15T13:20:00Z",
+      "tags": [
+        "ransomware",
+        "encryption"
+      ],
+      "threat_actor": {
+        "name": "LockBit 3.0",
+        "confidence": 95
+      },
+      "campaign": {
+        "name": "LockBit Ransomware Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-013",
+      "type": "ip",
+      "value": "217.182.143.207",
+      "confidence": 68,
+      "threat_level": "medium",
+      "first_seen": "2024-11-15T08:00:00Z",
+      "last_seen": "2026-01-22T16:30:00Z",
+      "tags": [
+        "scanning",
+        "vulnerability-exploitation"
+      ],
+      "threat_actor": null,
+      "campaign": null
+    },
+    {
+      "id": "ioc-014",
+      "type": "domain",
+      "value": "microsoft-security-update.net",
+      "confidence": 91,
+      "threat_level": "high",
+      "first_seen": "2024-12-13T13:20:00Z",
+      "last_seen": "2026-02-12T19:15:00Z",
+      "tags": [
+        "phishing",
+        "typosquatting"
+      ],
+      "threat_actor": {
+        "name": "APT32",
+        "confidence": 80
+      },
+      "campaign": {
+        "name": "Typosquatting Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-015",
+      "type": "ip",
+      "value": "5.188.206.76",
+      "confidence": 85,
+      "threat_level": "high",
+      "first_seen": "2024-12-11T11:00:00Z",
+      "last_seen": "2026-02-08T12:10:00Z",
+      "tags": [
+        "cryptomining",
+        "botnet"
+      ],
+      "threat_actor": {
+        "name": "Rocke Group",
+        "confidence": 77
+      },
+      "campaign": {
+        "name": "Cryptojacking Infrastructure",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-016",
+      "type": "ip",
+      "value": "23.227.38.32",
+      "confidence": 89,
+      "threat_level": "high",
+      "first_seen": "2024-12-08T06:45:00Z",
+      "last_seen": "2026-02-14T18:30:00Z",
+      "tags": [
+        "malware",
+        "spyware",
+        "info-stealer"
+      ],
+      "threat_actor": {
+        "name": "Gamaredon Group",
+        "confidence": 83
+      },
+      "campaign": {
+        "name": "Eastern Europe Espionage",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-017",
+      "type": "url",
+      "value": "https://paypal-secure-login.tk/verify",
+      "confidence": 93,
+      "threat_level": "critical",
+      "first_seen": "2024-12-19T10:00:00Z",
+      "last_seen": "2026-02-15T20:05:00Z",
+      "tags": [
+        "phishing",
+        "financial-fraud"
+      ],
+      "threat_actor": {
+        "name": "Unknown",
+        "confidence": 65
+      },
+      "campaign": {
+        "name": "Holiday Shopping Scam",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-018",
+      "type": "ip",
+      "value": "139.59.46.154",
+      "confidence": 76,
+      "threat_level": "medium",
+      "first_seen": "2024-11-25T14:15:00Z",
+      "last_seen": "2026-01-28T09:40:00Z",
+      "tags": [
+        "scanning",
+        "enumeration"
+      ],
+      "threat_actor": null,
+      "campaign": null
+    },
+    {
+      "id": "ioc-019",
+      "type": "hash",
+      "value": "9f86d081884c7d659a2feaa0c55ad015",
+      "confidence": 88,
+      "threat_level": "high",
+      "first_seen": "2024-12-15T12:30:00Z",
+      "last_seen": "2026-02-13T22:40:00Z",
+      "tags": [
+        "trojan",
+        "remote-access"
+      ],
+      "threat_actor": {
+        "name": "Turla",
+        "confidence": 86
+      },
+      "campaign": {
+        "name": "Diplomatic Targeting Campaign",
+        "status": "active"
+      }
+    },
+    {
+      "id": "ioc-020",
+      "type": "ip",
+      "value": "162.142.125.217",
+      "confidence": 82,
+      "threat_level": "high",
+      "first_seen": "2024-12-09T08:20:00Z",
+      "last_seen": "2026-02-11T13:45:00Z",
+      "tags": [
+        "c2",
+        "command-and-control"
+      ],
+      "threat_actor": {
+        "name": "Cobalt Group",
+        "confidence": 79
+      },
+      "campaign": {
+        "name": "ATM Jackpotting Campaign",
+        "status": "active"
+      }
+    }
+  ]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<os:store doc:name="Store" doc:id="6534f1e2-cd9d-43cf-b5ff-f5494bb96f95" objectStore="Object_store" key="Indicator">
+				<os:value><![CDATA[#[%dw 2.0
+output application/json  
+---
+payload.indicators map{
+  "value": $.value,
+  "id": $.id,
+  "threat_level": $.threat_level,
+  "confidence": $.confidence,
+  "last_seen": $.last_seen as DateTime,
+  "campaign": $.campaign.name,
+  "threat_actor": $.threat_actor,
+  "tags": $.tags
+}]]]></os:value>
+			</os:store>
+	</flow>
+	<flow name="indicators-object-storage-remove" doc:id="93692997-4bd0-4064-af5d-63f783f71500" >
+		<scheduler doc:name="Scheduler" doc:id="524eaa3d-f534-4dc0-9080-b5fabb904fe6" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="5" timeUnit="MINUTES" startDelay="2"/>
+			</scheduling-strategy>
+		</scheduler>
+		<os:retrieve-all doc:name="Retrieve all" doc:id="17f9ad5c-21ec-4d88-a435-561abf4cf2cb" objectStore="Object_store"/>
+		<ee:transform doc:name="Filter +30 plus last seen" doc:id="7d616469-cb3f-432e-aa34-35fc9ee7cf88" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var indicators = read(payload.Indicator,'application/json') 
+output application/json  
+---
+indicators filter ((item, index) -> (item.last_seen as DateTime) > now() - |P30D|)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<os:clear doc:name="Clear" doc:id="687a072a-cdbc-475a-8b2b-47c14b6acb84" objectStore="Object_store" />
+		<os:store doc:name="Store" doc:id="58e76c67-207f-49fd-9cd2-b2285af7ec67" key="Indicator" objectStore="Object_store">
+			</os:store>
+	</flow>
+</mule>

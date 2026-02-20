@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<sub-flow name="malicius-ip" doc:id="da513e92-a37c-4d0a-a734-00cff9ad94f8" >
+		<os:retrieve-all doc:name="Retrieve all" doc:id="c9bc0cdb-4878-44d4-96d2-a906cf393cfa" objectStore="Object_store" />
+		<ee:transform doc:name="Format response" doc:id="f4f0ba6f-fdbb-4110-a5cc-7695ecc02b21">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+read(payload.Indicator,'application/json')]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Final response" doc:id="bf5b357d-4304-4cec-bc9d-53723292878f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output text/plain
+---
+'# Augur Security - Malicious IP Block List
+# Last Updated: ' ++ (now() as String {format: "yyyy-MM-dd'T'HH:mm:ss'Z'"}) ++ '
+# Total IPs: ' ++ sizeOf(payload) ++ '
+# Threat Levels: Critical: '++ sizeOf(payload filter (value, index) -> (value.threat_level == "critical")) ++', High: '++ sizeOf(payload filter (value, index) -> (value.threat_level == "high")) ++ "\n" ++ (payload map ('# IOC: '++ $.id ++' | Threat: '++ $.threat_level ++' | Campaign: ' ++ $.campaign default "" ++' | Last Seen: '++ ($.last_seen as DateTime) as String {format: "yyyy-MM-dd"} ++ "\n" ++ $.value ) joinBy  "\n")]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="malicius-ip-metadata" doc:id="4f7584c6-f8d7-42d4-8751-8ca9317967de" >
+		<os:retrieve-all doc:name="Retrieve all" doc:id="b85f6d49-fa79-4311-91fe-e2758e7e0293" objectStore="Object_store" />
+		<ee:transform doc:name="Final response" doc:id="5e74d577-3abb-4e74-8550-0cb535ec08f2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var format = read(payload.Indicator,'application/json')
+output application/json
+---
+{
+  "last_updated": now() as String {format: "yyyy-MM-dd'T'HH:mm:ss'Z'"},
+  "total_ips": sizeOf(format.value),
+  "threat_levels": {
+    "critical": sizeOf(format filter (value, index) -> (value.threat_level == "critical")),
+    "high": sizeOf(format filter (value, index) -> (value.threat_level == "high"))
+  },
+  "oldest_indicator": (min(format map $.last_seen)) as String {format: "yyyy-MM-dd'T'HH:mm:ss'Z'"},
+  "newest_indicator": (max(format map $.last_seen)) as String {format: "yyyy-MM-dd'T'HH:mm:ss'Z'"}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

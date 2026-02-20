@@ -1,0 +1,9 @@
+#properties
+
+secToken: "12345678-1234-1234-1234-123456789abc"
+
+#basic auth
+
+client_id: "123456789"
+
+client_secret: "987654321"

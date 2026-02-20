@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<sub-flow name="augur-to-qradar" doc:id="442f1366-8f06-4457-ada7-9a98d664f367" >
+		<choice doc:name="Is payload and reference set correct?" doc:id="66fc8cbd-253b-4a0d-b680-3a930e90a9ce">
+			<when expression='#[%dw 2.0&#10;var ipv4Regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/&#10;var validate = payload.indicators map {&#10;  valueValid: $.value matches ipv4Regex,&#10;  "firstSeenValid": (typeOf(($.first_seen as DateTime)) ~= "DateTime") default false,&#10;  "lastSeenValid": (typeOf(($.last_seen as DateTime)) ~= "DateTime") default false&#10;}&#10;output application/json  &#10;---&#10;((validate.*valueValid contains false) or (validate.*firstSeenValid contains false) or (validate.*lastSeenValid contains false))]'>
+				<raise-error doc:name="Invalid payload format" doc:id="b7454bf1-f0ec-48e1-b802-a7fb4dfc5fd7" type="ERROR:INVALID_PAYLOAD_FORMAT"/>
+			</when>
+			<when expression="#[%dw 2.0&#10;output application/json  &#10;---&#10;(if ((attributes.uriParams.'name' contains (&quot;ip&quot;)) and (attributes.uriParams.'name' contains (&quot;domain&quot;)) and (attributes.uriParams.'name' contains (&quot;hash&quot;)) and (attributes.uriParams.'name' contains (&quot;url&quot;)))&#10;  true&#10;else&#10;  false)]">
+				<raise-error doc:name="Invalid reference set" doc:id="70ce4db9-ee7e-4d1e-9011-a3f0ab757047" type="ERROR:INVALID_REFERENCE_SET"/>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Aubur format to Qradar" doc:id="549451d8-ee64-4824-bda5-e8820dde4134">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+fun element_type(indicator) =
+  if ( indicator == "ip" ) {
+	"name": "AugurThreatIntel_IPs",
+	"element_type": "IP"
+}
+  else if ( indicator == "domain" ) {
+	"name": "AugurThreatIntel_Domains",
+	"element_type": "ALN"
+}
+  else if ( indicator == "url" ) {
+	"name": "AugurThreatIntel_URLs",
+	"element_type": "ALN"
+}
+  else
+    {
+	"name": "AugurThreatIntel_Hashes",
+	"element_type": "ALN"
+}
+output application/json
+---
+{
+	"name": element_type(attributes.uriParams.'name').name,
+	"element_type": element_type(attributes.uriParams.'name').element_type,
+	"timeout_type": "LAST_SEEN",
+	"data": payload.indicators filter ($."type" == attributes.uriParams.'name') map {
+		"value": $.value,
+		"source": "Augur Security Platform",
+		"first_seen": $.first_seen as DateTime as Number {
+			unit: "milliseconds"
+		},
+		"last_seen": $.last_seen as DateTime as Number {
+			unit: "milliseconds"
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+				<ee:transform doc:name="Logeo de resultados exitosos" doc:id="71bfbaff-6a28-4516-a45d-91cf5306259e">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Sent " ++ sizeOf(payload.data) ++ " indicators type " ++ attributes.uriParams.'name' ++ " to Qradar",
+	"payload": payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</otherwise>
+		</choice>
+	</sub-flow>
+</mule>
